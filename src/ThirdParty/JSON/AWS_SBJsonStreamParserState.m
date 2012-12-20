@@ -30,8 +30,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonStreamParserState.h"
-#import "SBJsonStreamParser.h"
+#import "AWS_SBJsonStreamParserState.h"
+#import "AWS_SBJsonStreamParser.h"
 
 #define SINGLETON \
 + (id)sharedInstance { \
@@ -40,19 +40,19 @@
     return state; \
 }
 
-@implementation SBJsonStreamParserState
+@implementation AWS_SBJsonStreamParserState
 
 + (id)sharedInstance { return nil; }
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	return NO;
 }
 
-- (SBJsonStreamParserStatus)parserShouldReturn:(SBJsonStreamParser*)parser {
+- (SBJsonStreamParserStatus)parserShouldReturn:(AWS_SBJsonStreamParser*)parser {
 	return SBJsonStreamParserWaitingForData;
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {}
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {}
 
 - (BOOL)needKey {
 	return NO;
@@ -66,24 +66,24 @@
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateStart
+@implementation AWS_SBJsonStreamParserStateStart
 
 SINGLETON
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	return token == sbjson_token_array_start || token == sbjson_token_object_start;
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
 
-	SBJsonStreamParserState *state = nil;
+	AWS_SBJsonStreamParserState *state = nil;
 	switch (tok) {
 		case sbjson_token_array_start:
-			state = [SBJsonStreamParserStateArrayStart sharedInstance];
+			state = [AWS_SBJsonStreamParserStateArrayStart sharedInstance];
 			break;
 
 		case sbjson_token_object_start:
-			state = [SBJsonStreamParserStateObjectStart sharedInstance];
+			state = [AWS_SBJsonStreamParserStateObjectStart sharedInstance];
 			break;
 
 		case sbjson_token_array_end:
@@ -91,14 +91,14 @@ SINGLETON
 			if (parser.supportMultipleDocuments)
 				state = parser.state;
 			else
-				state = [SBJsonStreamParserStateComplete sharedInstance];
+				state = [AWS_SBJsonStreamParserStateComplete sharedInstance];
 			break;
 
 		case sbjson_token_eof:
 			return;
 
 		default:
-			state = [SBJsonStreamParserStateError sharedInstance];
+			state = [AWS_SBJsonStreamParserStateError sharedInstance];
 			break;
 	}
 
@@ -112,13 +112,13 @@ SINGLETON
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateComplete
+@implementation AWS_SBJsonStreamParserStateComplete
 
 SINGLETON
 
 - (NSString*)name { return @"after outer-most array or object"; }
 
-- (SBJsonStreamParserStatus)parserShouldReturn:(SBJsonStreamParser*)parser {
+- (SBJsonStreamParserStatus)parserShouldReturn:(AWS_SBJsonStreamParser*)parser {
 	return SBJsonStreamParserComplete;
 }
 
@@ -126,13 +126,13 @@ SINGLETON
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateError
+@implementation AWS_SBJsonStreamParserStateError
 
 SINGLETON
 
 - (NSString*)name { return @"in error"; }
 
-- (SBJsonStreamParserStatus)parserShouldReturn:(SBJsonStreamParser*)parser {
+- (SBJsonStreamParserStatus)parserShouldReturn:(AWS_SBJsonStreamParser*)parser {
 	return SBJsonStreamParserError;
 }
 
@@ -140,13 +140,13 @@ SINGLETON
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateObjectStart
+@implementation AWS_SBJsonStreamParserStateObjectStart
 
 SINGLETON
 
 - (NSString*)name { return @"at beginning of object"; }
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	switch (token) {
 		case sbjson_token_object_end:
 		case sbjson_token_string:
@@ -158,8 +158,8 @@ SINGLETON
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
-	parser.state = [SBJsonStreamParserStateObjectGotKey sharedInstance];
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+	parser.state = [AWS_SBJsonStreamParserStateObjectGotKey sharedInstance];
 }
 
 - (BOOL)needKey {
@@ -170,31 +170,31 @@ SINGLETON
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateObjectGotKey
+@implementation AWS_SBJsonStreamParserStateObjectGotKey
 
 SINGLETON
 
 - (NSString*)name { return @"after object key"; }
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	return token == sbjson_token_keyval_separator;
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
-	parser.state = [SBJsonStreamParserStateObjectSeparator sharedInstance];
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+	parser.state = [AWS_SBJsonStreamParserStateObjectSeparator sharedInstance];
 }
 
 @end
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateObjectSeparator
+@implementation AWS_SBJsonStreamParserStateObjectSeparator
 
 SINGLETON
 
 - (NSString*)name { return @"as object value"; }
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	switch (token) {
 		case sbjson_token_object_start:
 		case sbjson_token_array_start:
@@ -212,21 +212,21 @@ SINGLETON
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
-	parser.state = [SBJsonStreamParserStateObjectGotValue sharedInstance];
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+	parser.state = [AWS_SBJsonStreamParserStateObjectGotValue sharedInstance];
 }
 
 @end
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateObjectGotValue
+@implementation AWS_SBJsonStreamParserStateObjectGotValue
 
 SINGLETON
 
 - (NSString*)name { return @"after object value"; }
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	switch (token) {
 		case sbjson_token_object_end:
 		case sbjson_token_separator:
@@ -238,8 +238,8 @@ SINGLETON
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
-	parser.state = [SBJsonStreamParserStateObjectNeedKey sharedInstance];
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+	parser.state = [AWS_SBJsonStreamParserStateObjectNeedKey sharedInstance];
 }
 
 
@@ -247,18 +247,18 @@ SINGLETON
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateObjectNeedKey
+@implementation AWS_SBJsonStreamParserStateObjectNeedKey
 
 SINGLETON
 
 - (NSString*)name { return @"in place of object key"; }
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
     return sbjson_token_string == token;
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
-	parser.state = [SBJsonStreamParserStateObjectGotKey sharedInstance];
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+	parser.state = [AWS_SBJsonStreamParserStateObjectGotKey sharedInstance];
 }
 
 - (BOOL)needKey {
@@ -269,13 +269,13 @@ SINGLETON
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateArrayStart
+@implementation AWS_SBJsonStreamParserStateArrayStart
 
 SINGLETON
 
 - (NSString*)name { return @"at array start"; }
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	switch (token) {
 		case sbjson_token_object_end:
 		case sbjson_token_keyval_separator:
@@ -289,42 +289,42 @@ SINGLETON
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
-	parser.state = [SBJsonStreamParserStateArrayGotValue sharedInstance];
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+	parser.state = [AWS_SBJsonStreamParserStateArrayGotValue sharedInstance];
 }
 
 @end
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateArrayGotValue
+@implementation AWS_SBJsonStreamParserStateArrayGotValue
 
 SINGLETON
 
 - (NSString*)name { return @"after array value"; }
 
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	return token == sbjson_token_array_end || token == sbjson_token_separator;
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
 	if (tok == sbjson_token_separator)
-		parser.state = [SBJsonStreamParserStateArrayNeedValue sharedInstance];
+		parser.state = [AWS_SBJsonStreamParserStateArrayNeedValue sharedInstance];
 }
 
 @end
 
 #pragma mark -
 
-@implementation SBJsonStreamParserStateArrayNeedValue
+@implementation AWS_SBJsonStreamParserStateArrayNeedValue
 
 SINGLETON
 
 - (NSString*)name { return @"as array value"; }
 
 
-- (BOOL)parser:(SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
+- (BOOL)parser:(AWS_SBJsonStreamParser*)parser shouldAcceptToken:(sbjson_token_t)token {
 	switch (token) {
 		case sbjson_token_array_end:
 		case sbjson_token_keyval_separator:
@@ -339,8 +339,8 @@ SINGLETON
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
-	parser.state = [SBJsonStreamParserStateArrayGotValue sharedInstance];
+- (void)parser:(AWS_SBJsonStreamParser*)parser shouldTransitionTo:(sbjson_token_t)tok {
+	parser.state = [AWS_SBJsonStreamParserStateArrayGotValue sharedInstance];
 }
 
 @end

@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface SBJsonUTF8Stream : NSObject {
+@interface AWS_SBJsonUTF8Stream : NSObject {
 @private
     const char *_bytes;
     NSMutableData *_data;

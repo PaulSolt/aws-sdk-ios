@@ -37,7 +37,7 @@
  @see @ref json2objc
  */
 
-@interface SBJsonWriter : NSObject {
+@interface AWS_SBJsonWriter : NSObject {
 @private
     NSString *error;
     NSUInteger maxDepth;

@@ -75,9 +75,9 @@
 
  */
 
-#import "SBJsonParser.h"
-#import "SBJsonWriter.h"
-#import "SBJsonStreamParser.h"
-#import "SBJsonStreamParserAdapter.h"
-#import "SBJsonStreamWriter.h"
+#import "AWS_SBJsonParser.h"
+#import "AWS_SBJsonWriter.h"
+#import "AWS_SBJsonStreamParser.h"
+#import "AWS_SBJsonStreamParserAdapter.h"
+#import "AWS_SBJsonStreamWriter.h"
 

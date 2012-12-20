@@ -32,9 +32,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class SBJsonTokeniser;
-@class SBJsonStreamParser;
-@class SBJsonStreamParserState;
+@class AWS_SBJsonTokeniser;
+@class AWS_SBJsonStreamParser;
+@class AWS_SBJsonStreamParserState;
 
 typedef enum {
 	SBJsonStreamParserComplete,
@@ -49,34 +49,34 @@ typedef enum {
  You will most likely find it much more convenient to implement the
  SBJsonStreamParserAdapterDelegate protocol instead.
  */
-@protocol SBJsonStreamParserDelegate
+@protocol AWS_SBJsonStreamParserDelegate
 
 /// Called when object start is found
-- (void)parserFoundObjectStart:(SBJsonStreamParser*)parser;
+- (void)parserFoundObjectStart:(AWS_SBJsonStreamParser*)parser;
 
 /// Called when object key is found
-- (void)parser:(SBJsonStreamParser*)parser foundObjectKey:(NSString*)key;
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundObjectKey:(NSString*)key;
 
 /// Called when object end is found
-- (void)parserFoundObjectEnd:(SBJsonStreamParser*)parser;
+- (void)parserFoundObjectEnd:(AWS_SBJsonStreamParser*)parser;
 
 /// Called when array start is found
-- (void)parserFoundArrayStart:(SBJsonStreamParser*)parser;
+- (void)parserFoundArrayStart:(AWS_SBJsonStreamParser*)parser;
 
 /// Called when array end is found
-- (void)parserFoundArrayEnd:(SBJsonStreamParser*)parser;
+- (void)parserFoundArrayEnd:(AWS_SBJsonStreamParser*)parser;
 
 /// Called when a boolean value is found
-- (void)parser:(SBJsonStreamParser*)parser foundBoolean:(BOOL)x;
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundBoolean:(BOOL)x;
 
 /// Called when a null value is found
-- (void)parserFoundNull:(SBJsonStreamParser*)parser;
+- (void)parserFoundNull:(AWS_SBJsonStreamParser*)parser;
 
 /// Called when a number is found
-- (void)parser:(SBJsonStreamParser*)parser foundNumber:(NSNumber*)num;
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundNumber:(NSNumber*)num;
 
 /// Called when a string is found
-- (void)parser:(SBJsonStreamParser*)parser foundString:(NSString*)string;
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundString:(NSString*)string;
 
 @end
 
@@ -97,18 +97,18 @@ typedef enum {
  @see @ref objc2json
  
  */
-@interface SBJsonStreamParser : NSObject {
+@interface AWS_SBJsonStreamParser : NSObject {
 @private
 	BOOL supportMultipleDocuments;
-	id<SBJsonStreamParserDelegate> delegate;
-	SBJsonTokeniser *tokeniser;
+	id<AWS_SBJsonStreamParserDelegate> delegate;
+	AWS_SBJsonTokeniser *tokeniser;
     NSMutableArray *stateStack;
-	__weak SBJsonStreamParserState *state;
+	__weak AWS_SBJsonStreamParserState *state;
 	NSUInteger maxDepth;
 	NSString *error;
 }
 
-@property (nonatomic, assign) __weak SBJsonStreamParserState *state; // Private
+@property (nonatomic, assign) __weak AWS_SBJsonStreamParserState *state; // Private
 @property (nonatomic, readonly, retain) NSMutableArray *stateStack; // Private
 
 /**
@@ -135,7 +135,7 @@ typedef enum {
  Usually this should be an instance of SBJsonStreamParserAdapter, but you can
  substitute your own implementation of the SBJsonStreamParserDelegate protocol if you need to. 
  */
-@property (assign) id<SBJsonStreamParserDelegate> delegate;
+@property (assign) id<AWS_SBJsonStreamParserDelegate> delegate;
 
 /**
  @brief The max parse depth

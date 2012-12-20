@@ -31,7 +31,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SBJsonStreamParser.h"
+#import "AWS_SBJsonStreamParser.h"
 
 typedef enum {
 	SBJsonStreamParserAdapterNone,
@@ -52,14 +52,14 @@ typedef enum {
  This method is called if a JSON array is found.
  
  */
-- (void)parser:(SBJsonStreamParser*)parser foundArray:(NSArray*)array;
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundArray:(NSArray*)array;
 
 /**
  @brief Called when a JSON object is found
 
  This method is called if a JSON object is found.
  */
-- (void)parser:(SBJsonStreamParser*)parser foundObject:(NSDictionary*)dict;
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundObject:(NSDictionary*)dict;
 
 @end
 
@@ -115,7 +115,7 @@ typedef enum {
  @endcode
  
 */
-@interface SBJsonStreamParserAdapter : NSObject <SBJsonStreamParserDelegate> {
+@interface AWS_SBJsonStreamParserAdapter : NSObject <AWS_SBJsonStreamParserDelegate> {
 @private
 	id<SBJsonStreamParserAdapterDelegate> delegate;
 	NSUInteger levelsToSkip, depth;

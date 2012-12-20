@@ -30,8 +30,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonStreamWriterState.h"
-#import "SBJsonStreamWriter.h"
+#import "AWS_SBJsonStreamWriterState.h"
+#import "AWS_SBJsonStreamWriter.h"
 
 #define SINGLETON \
 + (id)sharedInstance { \
@@ -41,97 +41,97 @@
 }
 
 
-@implementation SBJsonStreamWriterState
+@implementation AWS_SBJsonStreamWriterState
 + (id)sharedInstance { return nil; }
-- (BOOL)isInvalidState:(SBJsonStreamWriter*)writer { return NO; }
-- (void)appendSeparator:(SBJsonStreamWriter*)writer {}
-- (BOOL)expectingKey:(SBJsonStreamWriter*)writer { return NO; }
-- (void)transitionState:(SBJsonStreamWriter *)writer {}
-- (void)appendWhitespace:(SBJsonStreamWriter*)writer {
+- (BOOL)isInvalidState:(AWS_SBJsonStreamWriter*)writer { return NO; }
+- (void)appendSeparator:(AWS_SBJsonStreamWriter*)writer {}
+- (BOOL)expectingKey:(AWS_SBJsonStreamWriter*)writer { return NO; }
+- (void)transitionState:(AWS_SBJsonStreamWriter *)writer {}
+- (void)appendWhitespace:(AWS_SBJsonStreamWriter*)writer {
 	[writer appendBytes:"\n" length:1];
 	for (NSUInteger i = 0; i < writer.stateStack.count; i++)
 	    [writer appendBytes:"  " length:2];
 }
 @end
 
-@implementation SBJsonStreamWriterStateObjectStart
+@implementation AWS_SBJsonStreamWriterStateObjectStart
 
 SINGLETON
 
-- (void)transitionState:(SBJsonStreamWriter *)writer {
-	writer.state = [SBJsonStreamWriterStateObjectValue sharedInstance];
+- (void)transitionState:(AWS_SBJsonStreamWriter *)writer {
+	writer.state = [AWS_SBJsonStreamWriterStateObjectValue sharedInstance];
 }
-- (BOOL)expectingKey:(SBJsonStreamWriter *)writer {
+- (BOOL)expectingKey:(AWS_SBJsonStreamWriter *)writer {
 	writer.error = @"JSON object key must be string";
 	return YES;
 }
 @end
 
-@implementation SBJsonStreamWriterStateObjectKey
+@implementation AWS_SBJsonStreamWriterStateObjectKey
 
 SINGLETON
 
-- (void)appendSeparator:(SBJsonStreamWriter *)writer {
+- (void)appendSeparator:(AWS_SBJsonStreamWriter *)writer {
 	[writer appendBytes:"," length:1];
 }
 @end
 
-@implementation SBJsonStreamWriterStateObjectValue
+@implementation AWS_SBJsonStreamWriterStateObjectValue
 
 SINGLETON
 
-- (void)appendSeparator:(SBJsonStreamWriter *)writer {
+- (void)appendSeparator:(AWS_SBJsonStreamWriter *)writer {
 	[writer appendBytes:":" length:1];
 }
-- (void)transitionState:(SBJsonStreamWriter *)writer {
-    writer.state = [SBJsonStreamWriterStateObjectKey sharedInstance];
+- (void)transitionState:(AWS_SBJsonStreamWriter *)writer {
+    writer.state = [AWS_SBJsonStreamWriterStateObjectKey sharedInstance];
 }
-- (void)appendWhitespace:(SBJsonStreamWriter *)writer {
+- (void)appendWhitespace:(AWS_SBJsonStreamWriter *)writer {
 	[writer appendBytes:" " length:1];
 }
 @end
 
-@implementation SBJsonStreamWriterStateArrayStart
+@implementation AWS_SBJsonStreamWriterStateArrayStart
 
 SINGLETON
 
-- (void)transitionState:(SBJsonStreamWriter *)writer {
-    writer.state = [SBJsonStreamWriterStateArrayValue sharedInstance];
+- (void)transitionState:(AWS_SBJsonStreamWriter *)writer {
+    writer.state = [AWS_SBJsonStreamWriterStateArrayValue sharedInstance];
 }
 @end
 
-@implementation SBJsonStreamWriterStateArrayValue
+@implementation AWS_SBJsonStreamWriterStateArrayValue
 
 SINGLETON
 
-- (void)appendSeparator:(SBJsonStreamWriter *)writer {
+- (void)appendSeparator:(AWS_SBJsonStreamWriter *)writer {
 	[writer appendBytes:"," length:1];
 }
 @end
 
-@implementation SBJsonStreamWriterStateStart
+@implementation AWS_SBJsonStreamWriterStateStart
 
 SINGLETON
 
 
-- (void)transitionState:(SBJsonStreamWriter *)writer {
-    writer.state = [SBJsonStreamWriterStateComplete sharedInstance];
+- (void)transitionState:(AWS_SBJsonStreamWriter *)writer {
+    writer.state = [AWS_SBJsonStreamWriterStateComplete sharedInstance];
 }
-- (void)appendSeparator:(SBJsonStreamWriter *)writer {
+- (void)appendSeparator:(AWS_SBJsonStreamWriter *)writer {
 }
 @end
 
-@implementation SBJsonStreamWriterStateComplete
+@implementation AWS_SBJsonStreamWriterStateComplete
 
 SINGLETON
 
-- (BOOL)isInvalidState:(SBJsonStreamWriter*)writer {
+- (BOOL)isInvalidState:(AWS_SBJsonStreamWriter*)writer {
 	writer.error = @"Stream is closed";
 	return YES;
 }
 @end
 
-@implementation SBJsonStreamWriterStateError
+@implementation AWS_SBJsonStreamWriterStateError
 
 SINGLETON
 

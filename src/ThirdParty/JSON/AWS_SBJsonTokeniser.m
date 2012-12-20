@@ -29,21 +29,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonTokeniser.h"
-#import "SBJsonUTF8Stream.h"
+#import "AWS_SBJsonTokeniser.h"
+#import "AWS_SBJsonUTF8Stream.h"
 
 #define SBStringIsIllegalSurrogateHighCharacter(character) (((character) >= 0xD800UL) && ((character) <= 0xDFFFUL))
 #define SBStringIsSurrogateLowCharacter(character) ((character >= 0xDC00UL) && (character <= 0xDFFFUL))
 #define SBStringIsSurrogateHighCharacter(character) ((character >= 0xD800UL) && (character <= 0xDBFFUL))
 
-@implementation SBJsonTokeniser
+@implementation AWS_SBJsonTokeniser
 
 @synthesize error = _error;
 
 - (id)init {
     self = [super init];
     if (self) {
-        _stream = [[SBJsonUTF8Stream alloc] init];
+        _stream = [[AWS_SBJsonUTF8Stream alloc] init];
 
     }
 

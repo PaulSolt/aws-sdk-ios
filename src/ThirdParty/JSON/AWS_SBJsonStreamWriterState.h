@@ -32,38 +32,38 @@
 
 #import <Foundation/Foundation.h>
 
-@class SBJsonStreamWriter;
+@class AWS_SBJsonStreamWriter;
 
-@interface SBJsonStreamWriterState : NSObject
+@interface AWS_SBJsonStreamWriterState : NSObject
 + (id)sharedInstance;
-- (BOOL)isInvalidState:(SBJsonStreamWriter*)writer;
-- (void)appendSeparator:(SBJsonStreamWriter*)writer;
-- (BOOL)expectingKey:(SBJsonStreamWriter*)writer;
-- (void)transitionState:(SBJsonStreamWriter*)writer;
-- (void)appendWhitespace:(SBJsonStreamWriter*)writer;
+- (BOOL)isInvalidState:(AWS_SBJsonStreamWriter*)writer;
+- (void)appendSeparator:(AWS_SBJsonStreamWriter*)writer;
+- (BOOL)expectingKey:(AWS_SBJsonStreamWriter*)writer;
+- (void)transitionState:(AWS_SBJsonStreamWriter*)writer;
+- (void)appendWhitespace:(AWS_SBJsonStreamWriter*)writer;
 @end
 
-@interface SBJsonStreamWriterStateObjectStart : SBJsonStreamWriterState
+@interface AWS_SBJsonStreamWriterStateObjectStart : AWS_SBJsonStreamWriterState
 @end
 
-@interface SBJsonStreamWriterStateObjectKey : SBJsonStreamWriterStateObjectStart
+@interface AWS_SBJsonStreamWriterStateObjectKey : AWS_SBJsonStreamWriterStateObjectStart
 @end
 
-@interface SBJsonStreamWriterStateObjectValue : SBJsonStreamWriterState
+@interface AWS_SBJsonStreamWriterStateObjectValue : AWS_SBJsonStreamWriterState
 @end
 
-@interface SBJsonStreamWriterStateArrayStart : SBJsonStreamWriterState
+@interface AWS_SBJsonStreamWriterStateArrayStart : AWS_SBJsonStreamWriterState
 @end
 
-@interface SBJsonStreamWriterStateArrayValue : SBJsonStreamWriterState
+@interface AWS_SBJsonStreamWriterStateArrayValue : AWS_SBJsonStreamWriterState
 @end
 
-@interface SBJsonStreamWriterStateStart : SBJsonStreamWriterState
+@interface AWS_SBJsonStreamWriterStateStart : AWS_SBJsonStreamWriterState
 @end
 
-@interface SBJsonStreamWriterStateComplete : SBJsonStreamWriterState
+@interface AWS_SBJsonStreamWriterStateComplete : AWS_SBJsonStreamWriterState
 @end
 
-@interface SBJsonStreamWriterStateError : SBJsonStreamWriterState
+@interface AWS_SBJsonStreamWriterStateError : AWS_SBJsonStreamWriterState
 @end
 

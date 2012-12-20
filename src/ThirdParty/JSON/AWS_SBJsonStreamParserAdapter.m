@@ -30,18 +30,18 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonStreamParserAdapter.h"
+#import "AWS_SBJsonStreamParserAdapter.h"
 
-@interface SBJsonStreamParserAdapter ()
+@interface AWS_SBJsonStreamParserAdapter ()
 
 - (void)pop;
-- (void)parser:(SBJsonStreamParser*)parser found:(id)obj;
+- (void)parser:(AWS_SBJsonStreamParser*)parser found:(id)obj;
 
 @end
 
 
 
-@implementation SBJsonStreamParserAdapter
+@implementation AWS_SBJsonStreamParserAdapter
 
 @synthesize delegate;
 @synthesize levelsToSkip;
@@ -84,7 +84,7 @@
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser found:(id)obj {
+- (void)parser:(AWS_SBJsonStreamParser*)parser found:(id)obj {
 	NSParameterAssert(obj);
 	
 	switch (currentType) {
@@ -114,7 +114,7 @@
 
 #pragma mark Delegate methods
 
-- (void)parserFoundObjectStart:(SBJsonStreamParser*)parser {
+- (void)parserFoundObjectStart:(AWS_SBJsonStreamParser*)parser {
 	if (++depth > levelsToSkip) {
 		dict = [[NSMutableDictionary new] autorelease];
 		[stack addObject:dict];
@@ -122,11 +122,11 @@
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser foundObjectKey:(NSString*)key_ {
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundObjectKey:(NSString*)key_ {
 	[keyStack addObject:key_];
 }
 
-- (void)parserFoundObjectEnd:(SBJsonStreamParser*)parser {
+- (void)parserFoundObjectEnd:(AWS_SBJsonStreamParser*)parser {
 	if (depth-- > levelsToSkip) {
 		id value = [dict retain];
 		[self pop];
@@ -135,7 +135,7 @@
 	}
 }
 
-- (void)parserFoundArrayStart:(SBJsonStreamParser*)parser {
+- (void)parserFoundArrayStart:(AWS_SBJsonStreamParser*)parser {
 	if (++depth > levelsToSkip) {
 		array = [[NSMutableArray new] autorelease];
 		[stack addObject:array];
@@ -143,7 +143,7 @@
 	}
 }
 
-- (void)parserFoundArrayEnd:(SBJsonStreamParser*)parser {
+- (void)parserFoundArrayEnd:(AWS_SBJsonStreamParser*)parser {
 	if (depth-- > levelsToSkip) {
 		id value = [array retain];
 		[self pop];
@@ -152,19 +152,19 @@
 	}
 }
 
-- (void)parser:(SBJsonStreamParser*)parser foundBoolean:(BOOL)x {
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundBoolean:(BOOL)x {
 	[self parser:parser found:[NSNumber numberWithBool:x]];
 }
 
-- (void)parserFoundNull:(SBJsonStreamParser*)parser {
+- (void)parserFoundNull:(AWS_SBJsonStreamParser*)parser {
 	[self parser:parser found:[NSNull null]];
 }
 
-- (void)parser:(SBJsonStreamParser*)parser foundNumber:(NSNumber*)num {
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundNumber:(NSNumber*)num {
 	[self parser:parser found:num];
 }
 
-- (void)parser:(SBJsonStreamParser*)parser foundString:(NSString*)string {
+- (void)parser:(AWS_SBJsonStreamParser*)parser foundString:(NSString*)string {
 	[self parser:parser found:string];
 }
 

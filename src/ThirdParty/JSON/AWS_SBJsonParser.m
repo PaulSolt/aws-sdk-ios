@@ -27,12 +27,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonParser.h"
-#import "SBJsonStreamParser.h"
-#import "SBJsonStreamParserAdapter.h"
-#import "SBJsonStreamParserAccumulator.h"
+#import "AWS_SBJsonParser.h"
+#import "AWS_SBJsonStreamParser.h"
+#import "AWS_SBJsonStreamParserAdapter.h"
+#import "AWS_SBJsonStreamParserAccumulator.h"
 
-@implementation SBJsonParser
+@implementation AWS_SBJsonParser
 
 @synthesize maxDepth;
 @synthesize error;
@@ -58,12 +58,12 @@
         return nil;
     }
 
-	SBJsonStreamParserAccumulator *accumulator = [[[SBJsonStreamParserAccumulator alloc] init] autorelease];
+	AWS_SBJsonStreamParserAccumulator *accumulator = [[[AWS_SBJsonStreamParserAccumulator alloc] init] autorelease];
     
-    SBJsonStreamParserAdapter *adapter = [[[SBJsonStreamParserAdapter alloc] init] autorelease];
+    AWS_SBJsonStreamParserAdapter *adapter = [[[AWS_SBJsonStreamParserAdapter alloc] init] autorelease];
     adapter.delegate = accumulator;
 	
-	SBJsonStreamParser *parser = [[[SBJsonStreamParser alloc] init] autorelease];
+	AWS_SBJsonStreamParser *parser = [[[AWS_SBJsonStreamParser alloc] init] autorelease];
 	parser.maxDepth = self.maxDepth;
 	parser.delegate = adapter;
 	

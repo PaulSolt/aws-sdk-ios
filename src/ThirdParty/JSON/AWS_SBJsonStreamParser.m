@@ -30,12 +30,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonStreamParser.h"
-#import "SBJsonTokeniser.h"
-#import "SBJsonStreamParserState.h"
+#import "AWS_SBJsonStreamParser.h"
+#import "AWS_SBJsonTokeniser.h"
+#import "AWS_SBJsonStreamParserState.h"
 #import <limits.h>
 
-@implementation SBJsonStreamParser
+@implementation AWS_SBJsonStreamParser
 
 @synthesize supportMultipleDocuments;
 @synthesize error;
@@ -51,8 +51,8 @@
 	if (self) {
 		maxDepth = 32u;
         stateStack = [[NSMutableArray alloc] initWithCapacity:maxDepth];
-        state = [SBJsonStreamParserStateStart sharedInstance];
-		tokeniser = [[SBJsonTokeniser alloc] init];
+        state = [AWS_SBJsonStreamParserStateStart sharedInstance];
+		tokeniser = [[AWS_SBJsonTokeniser alloc] init];
 	}
 	return self;
 }
@@ -120,7 +120,7 @@
 
 - (void)maxDepthError {
     self.error = [NSString stringWithFormat:@"Input depth exceeds max depth of %u", maxDepth];
-    self.state = [SBJsonStreamParserStateError sharedInstance];
+    self.state = [AWS_SBJsonStreamParserStateError sharedInstance];
 }
 
 - (void)handleObjectStart {
@@ -131,7 +131,7 @@
 
     [delegate parserFoundObjectStart:self];
     [stateStack addObject:state];
-    self.state = [SBJsonStreamParserStateObjectStart sharedInstance];
+    self.state = [AWS_SBJsonStreamParserStateObjectStart sharedInstance];
 }
 
 - (void)handleArrayStart {
@@ -142,7 +142,7 @@
 	
 	[delegate parserFoundArrayStart:self];
     [stateStack addObject:state];
-    self.state = [SBJsonStreamParserStateArrayStart sharedInstance];
+    self.state = [AWS_SBJsonStreamParserStateArrayStart sharedInstance];
 }
 
 - (SBJsonStreamParserStatus)parse:(NSData *)data_ {
@@ -152,7 +152,7 @@
         
         for (;;) {
             
-            if ([state isKindOfClass:[SBJsonStreamParserStateError class]])
+            if ([state isKindOfClass:[AWS_SBJsonStreamParserStateError class]])
                 return SBJsonStreamParserError;
             
             NSObject *token;
@@ -163,7 +163,7 @@
                     break;
                     
                 case sbjson_token_error:
-                    self.state = [SBJsonStreamParserStateError sharedInstance];
+                    self.state = [AWS_SBJsonStreamParserStateError sharedInstance];
                     self.error = tokeniser.error;
                     return SBJsonStreamParserError;
                     break;
@@ -175,7 +175,7 @@
                         NSString *stateName = [state name];
                         
                         self.error = [NSString stringWithFormat:@"Token '%@' not expected %@", tokenName, stateName];
-                        self.state = [SBJsonStreamParserStateError sharedInstance];
+                        self.state = [AWS_SBJsonStreamParserStateError sharedInstance];
                         return SBJsonStreamParserError;
                     }
                     

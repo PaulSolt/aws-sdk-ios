@@ -58,15 +58,15 @@
 
 @end
 
-@class SBJsonStreamWriter;
+@class AWS_SBJsonStreamWriter;
 
-@protocol SBJsonStreamWriterDelegate
+@protocol AWS_SBJsonStreamWriterDelegate
 
-- (void)writer:(SBJsonStreamWriter*)writer appendBytes:(const void *)bytes length:(NSUInteger)length;
+- (void)writer:(AWS_SBJsonStreamWriter*)writer appendBytes:(const void *)bytes length:(NSUInteger)length;
 
 @end
 
-@class SBJsonStreamWriterState;
+@class AWS_SBJsonStreamWriterState;
 
 /**
  @brief The Stream Writer class.
@@ -82,24 +82,24 @@
 
  */
 
-@interface SBJsonStreamWriter : NSObject {
+@interface AWS_SBJsonStreamWriter : NSObject {
 @private
 	NSString *error;
     NSMutableArray *stateStack;
-    __weak SBJsonStreamWriterState *state;
-    id<SBJsonStreamWriterDelegate> delegate;
+    __weak AWS_SBJsonStreamWriterState *state;
+    id<AWS_SBJsonStreamWriterDelegate> delegate;
 	NSUInteger maxDepth;
     BOOL sortKeys, humanReadable;
 }
 
-@property (nonatomic, assign) __weak SBJsonStreamWriterState *state; // Internal
+@property (nonatomic, assign) __weak AWS_SBJsonStreamWriterState *state; // Internal
 @property (nonatomic, readonly, retain) NSMutableArray *stateStack; // Internal 
 
 /**
  @brief delegate to receive JSON output
  Delegate that will receive messages with output.
  */
-@property (assign) id<SBJsonStreamWriterDelegate> delegate;
+@property (assign) id<AWS_SBJsonStreamWriterDelegate> delegate;
 
 /**
  @brief The maximum recursing depth.
@@ -187,7 +187,7 @@
 
 @end
 
-@interface SBJsonStreamWriter (Private)
+@interface AWS_SBJsonStreamWriter (Private)
 - (BOOL)writeValue:(id)v;
 - (void)appendBytes:(const void *)bytes length:(NSUInteger)length;
 @end

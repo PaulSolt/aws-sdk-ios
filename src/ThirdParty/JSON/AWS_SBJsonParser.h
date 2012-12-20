@@ -38,7 +38,7 @@
 
  */
 
-@interface SBJsonParser : NSObject {
+@interface AWS_SBJsonParser : NSObject {
 
 @private
 	NSString *error;

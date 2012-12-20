@@ -27,16 +27,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonWriter.h"
-#import "SBJsonStreamWriter.h"
-#import "SBJsonStreamWriterAccumulator.h"
+#import "AWS_SBJsonWriter.h"
+#import "AWS_SBJsonStreamWriter.h"
+#import "AWS_SBJsonStreamWriterAccumulator.h"
 
 
-@interface SBJsonWriter ()
+@interface AWS_SBJsonWriter ()
 @property (copy) NSString *error;
 @end
 
-@implementation SBJsonWriter
+@implementation AWS_SBJsonWriter
 
 @synthesize sortKeys;
 @synthesize humanReadable;
@@ -80,9 +80,9 @@
 - (NSData*)dataWithObject:(id)object {	
     self.error = nil;
 
-    SBJsonStreamWriterAccumulator *accumulator = [[[SBJsonStreamWriterAccumulator alloc] init] autorelease];
+    AWS_SBJsonStreamWriterAccumulator *accumulator = [[[AWS_SBJsonStreamWriterAccumulator alloc] init] autorelease];
     
-	SBJsonStreamWriter *streamWriter = [[[SBJsonStreamWriter alloc] init] autorelease];
+	AWS_SBJsonStreamWriter *streamWriter = [[[AWS_SBJsonStreamWriter alloc] init] autorelease];
 	streamWriter.sortKeys = self.sortKeys;
 	streamWriter.maxDepth = self.maxDepth;
 	streamWriter.humanReadable = self.humanReadable;

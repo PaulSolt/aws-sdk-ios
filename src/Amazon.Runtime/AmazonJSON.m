@@ -19,7 +19,7 @@
 
 +(NSString *)JSONRepresentation:(NSObject *)object
 {
-    SBJsonWriter *writer = [[[SBJsonWriter alloc] init] autorelease];
+    AWS_SBJsonWriter *writer = [[[AWS_SBJsonWriter alloc] init] autorelease];
     NSString     *json   = [writer stringWithObject:object];
 
     if (!json) {
@@ -30,7 +30,7 @@
 
 +(id)JSONValue:(NSString *)jsonString
 {
-    SBJsonParser *parser = [[[SBJsonParser alloc] init] autorelease];
+    AWS_SBJsonParser *parser = [[[AWS_SBJsonParser alloc] init] autorelease];
     id           repr    = [parser objectWithString:jsonString];
 
     if (!repr) {

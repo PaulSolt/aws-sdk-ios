@@ -53,11 +53,11 @@ typedef enum {
     
 } sbjson_token_t;
 
-@class SBJsonUTF8Stream;
+@class AWS_SBJsonUTF8Stream;
 
-@interface SBJsonTokeniser : NSObject {
+@interface AWS_SBJsonTokeniser : NSObject {
 @private
-    SBJsonUTF8Stream *_stream;
+    AWS_SBJsonUTF8Stream *_stream;
     NSString *_error;
 }
 
